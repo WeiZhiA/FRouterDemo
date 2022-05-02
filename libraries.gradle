@@ -1,0 +1,13 @@
+
+/** 库的基本配置 **/
+def libConfig = [:]
+libConfig.releasehUrl = "http://www.baidu.com"
+libConfig.snapshotUrl = "http://www.baidu.com"
+
+def fRouter = [:]
+fRouter.version = "0.0.1" //后缀加"-SNAPSHOT"，表示快照包
+fRouter.artifactId="fRouter"
+fRouter.groupId="com.future.frouter"
+
+def testGrableData = [:]
+testGrableData.mm = "mm"

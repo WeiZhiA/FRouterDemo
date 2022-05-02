@@ -1,8 +1,7 @@
 plugins {
-    id 'java-library'
-    id 'kotlin'
-    id 'org.jetbrains.kotlin.jvm'
-
+    id "org.jetbrains.kotlin.jvm"
+    id "maven-publish"
+    id "signing"
 }
 
 java {
@@ -10,8 +9,77 @@ java {
     targetCompatibility = JavaVersion.VERSION_1_8
 }
 
+java {
+    withJavadocJar()
+    withSourcesJar()
+}
+
 dependencies {
 
     implementation("com.squareup:kotlinpoet:1.11.0")
     implementation("com.google.devtools.ksp:symbol-processing-api:1.6.20-1.0.5")
+
+//    System.out.println(fRouter.groupId)
 }
+
+def fRouter = [:]
+fRouter.version = "0.0.1" //后缀加"-SNAPSHOT"，表示快照包
+fRouter.artifactId="fRouter"
+fRouter.groupId="com.future.frouter"
+
+/** 库的基本配置 **/
+def libConfig = [:]
+libConfig.releasehUrl = "http://www.baidu.com"
+libConfig.snapshotUrl = "http://www.baidu.com"
+
+task TestGrable() {
+//    testGrableData.
+
+}
+
+// 2.第二种配置
+afterEvaluate {
+    publishing {
+        // 配置maven 仓库
+        repositories { RepositoryHandler handler ->
+            maven {
+                url = version.endsWith("SNAPSHOT") ? libConfig.snapshotUrl : libConfig.releasehUrl
+                credentials {
+                    username = findProperty("futureUsername")
+                    password = findProperty("sonatypePassword")
+                }
+                System.out.println("本地仓库地址:"+"/Users/administrator/.m2/repository/")
+            }
+        }
+
+        publications {
+            maven(MavenPublication) {
+//                from components.release // 注释1:使用 Android Gradle 插件生成的组件，作为发布的内容
+                //上传到仓库的库文件
+//                artifact "${buildDir}/outputs/aar/library-debug.aar"
+//                artifact sourceJar // 配置android上传源码
+//                artifact sourceJaveJar // 配置java上传源码
+
+                groupId = fRouter.groupId
+                artifactId = fRouter.artifactId
+                version = fRouter.artifactId
+            }
+        }
+    }
+}
+
+
+
+////配置java上传源码的任务
+//task sourceJaveJar(type: Jar) {
+//    from java.sourceSets.main.java.sourceDirectories
+//    archiveClassifier = "sources"
+//}
+
+
+//配置android上传源码的任务
+//task sourceJar(type: Jar) {
+//    from android.sourceSets.main.java.srcDirs
+//    archiveClassifier = "sources"
+//}
+
