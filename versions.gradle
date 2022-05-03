@@ -1,0 +1,10 @@
+def addRepos(RepositoryHandler handler) {
+    handler.maven {
+        url "http://192.168.254.126:8081/nexus/repository/maven-public/"
+        credentials {
+            username 'admin'
+            password '123456'
+        }
+    }
+    handler.maven { url "http://maven.aliyun.com/nexus/content/repositories/releases" }
+}

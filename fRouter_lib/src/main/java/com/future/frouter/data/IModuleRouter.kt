@@ -1,7 +1,4 @@
-package com.snaky.frouter.data
-
-import java.util.*
-import kotlin.reflect.KClass
+package com.future.frouter.data
 
 interface IModuleRouter {
 //    fun getModule(): String  /** 所在的模块名 **/

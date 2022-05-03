@@ -1,7 +1,7 @@
 plugins {
-    id "org.jetbrains.kotlin.jvm"
-    id "maven-publish"
-    id "signing"
+    id 'org.jetbrains.kotlin.jvm'
+    id 'maven-publish'
+    id 'signing'
 }
 
 java {
@@ -23,58 +23,83 @@ dependencies {
 }
 
 def fRouter = [:]
-fRouter.version = "0.0.1" //后缀加"-SNAPSHOT"，表示快照包
-fRouter.artifactId="fRouter"
+fRouter.version = "0.0.3-SNAPSHOT"
+fRouter.artifactId="frouter" //后缀加"-SNAPSHOT"，表示快照包
 fRouter.groupId="com.future.frouter"
 
 /** 库的基本配置 **/
 def libConfig = [:]
-libConfig.releasehUrl = "http://www.baidu.com"
-libConfig.snapshotUrl = "http://www.baidu.com"
+libConfig.releasehUrl = "http://192.168.254.126:8081/nexus/repository/maven-releases/"
+libConfig.snapshotUrl = "http://192.168.254.126:8081/nexus/repository/maven-snapshots/"
 
-task TestGrable() {
-//    testGrableData.
 
-}
+group = fRouter.groupId
+version = fRouter.version
 
-// 2.第二种配置
+// 上传
 afterEvaluate {
     publishing {
         // 配置maven 仓库
         repositories { RepositoryHandler handler ->
             maven {
+                allowInsecureProtocol = true
                 url = version.endsWith("SNAPSHOT") ? libConfig.snapshotUrl : libConfig.releasehUrl
                 credentials {
-                    username = findProperty("futureUsername")
-                    password = findProperty("sonatypePassword")
+                    username = "admin"  //findProperty("futureUsername")
+                    password = "123456" //findProperty("sonatypePassword")
                 }
-                System.out.println("本地仓库地址:"+"/Users/administrator/.m2/repository/")
+                System.out.println("仓库地址:${url}")
+                System.out.println("仓库地址:${getVersion()}")
             }
         }
 
         publications {
-            maven(MavenPublication) {
-//                from components.release // 注释1:使用 Android Gradle 插件生成的组件，作为发布的内容
-                //上传到仓库的库文件
-//                artifact "${buildDir}/outputs/aar/library-debug.aar"
-//                artifact sourceJar // 配置android上传源码
-//                artifact sourceJaveJar // 配置java上传源码
 
-                groupId = fRouter.groupId
+            mavenJava(MavenPublication) {
                 artifactId = fRouter.artifactId
-                version = fRouter.artifactId
+                from components.java
+                versionMapping {
+                    usage('java-api') {
+                        fromResolutionOf('runtimeClasspath')
+                    }
+                    usage('java-runtime') {
+                        fromResolutionResult()
+                    }
+                }
+                pom {
+//                    name =  "fRouter_lib"
+//                    description = "一个路由"
+//                    url = 'http://www.example.com/library'
+//                    licenses {
+//                        license {
+//                            name = 'The Apache License, Version 2.0'
+//                            url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+//                        }
+//                    }
+                    developers {
+                        developer {
+                            id = 'future'
+                            name = 'future'
+                            email = 'future@github.com'
+                        }
+                    }
+//                    scm {
+//                        connection = 'scm:git:git://github.com/future.git'
+//                        developerConnection = 'scm:git:ssh://github.com/future.git'
+//                        url = 'https://github.com/future'
+//                    }
+                }
+
             }
         }
     }
 }
 
-
-
 ////配置java上传源码的任务
-//task sourceJaveJar(type: Jar) {
-//    from java.sourceSets.main.java.sourceDirectories
-//    archiveClassifier = "sources"
-//}
+task sourceJaveJar(type: Jar) {
+    from java.sourceSets.main.java.sourceDirectories
+    archiveClassifier = "sources"
+}
 
 
 //配置android上传源码的任务

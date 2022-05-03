@@ -1,19 +1,58 @@
+
+
 pluginManagement {
-    repositories {
+    apply {
+        from: "versions.gradle"
+    }
+    repositories { handler->
         gradlePluginPortal()
         google()
+        jcenter()
         mavenCentral()
+
+        maven {
+            url "http://192.168.254.126:8081/nexus/repository/maven-public/"
+            allowInsecureProtocol = true
+            credentials {
+                username 'admin'
+                password '123456'
+            }
+        }
+
     }
 }
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
-    repositories {
+    repositories {handler->
+        gradlePluginPortal()
         google()
+        jcenter()
         mavenCentral()
+
+        maven {
+            url "http://192.168.254.126:8081/nexus/repository/maven-public/"
+            allowInsecureProtocol = true
+            credentials {
+                username 'admin'
+                password '123456'
+            }
+        }
     }
 }
 rootProject.name = "FRouterDemo"
-include ':app'
-include ':fRouter_lib'
-include ':base_lib'
-include ':business_lib'
+include ":app"
+include ":fRouter_lib"
+include ":base_lib"
+include ":business_lib"
+
+
+def addRepos(RepositoryHandler handler) {
+    handler.maven {
+        url "http://192.168.254.126:8081/nexus/repository/maven-public/"
+        credentials {
+            username 'admin'
+            password '123456'
+        }
+    }
+    handler.maven { url "http://maven.aliyun.com/nexus/content/repositories/releases" }
+}

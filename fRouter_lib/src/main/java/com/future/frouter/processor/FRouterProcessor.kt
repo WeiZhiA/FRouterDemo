@@ -9,8 +9,8 @@ import com.google.devtools.ksp.symbol.ClassKind
 import com.google.devtools.ksp.symbol.KSAnnotated
 import com.google.devtools.ksp.symbol.KSClassDeclaration
 import com.google.devtools.ksp.symbol.KSType
-import com.snaky.frouter.data.IModuleRouter
-import com.snaky.frouter.data.RouterData
+import com.future.frouter.data.IModuleRouter
+import com.future.frouter.data.RouterData
 import com.squareup.kotlinpoet.*
 import kotlin.concurrent.thread
 

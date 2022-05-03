@@ -49,6 +49,8 @@ dependencies {
     androidTestImplementation "androidx.test.espresso:espresso-core:3.4.0"
 
     implementation(project(":base_lib"))
-    ksp(project(":fRouter_lib"))
-//    ksp("com.future.frouter:frouter:0.0.1-SNAPSHOT")
+//    ksp(project(":fRouter_lib"))
+
+
+    ksp("com.future.frouter:frouter:0.0.3-SNAPSHOT")
 }

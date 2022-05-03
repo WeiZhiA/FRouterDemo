@@ -1,7 +1,7 @@
 package com.future.frouter
 
 import com.future.frouter.processor.FRouterProcessor.Companion.CLASS_PREFIX
-import com.snaky.frouter.data.IModuleRouter
+import com.future.frouter.data.IModuleRouter
 import kotlin.reflect.KClass
 
 object FRouterUtil {
