@@ -62,6 +62,62 @@ android {
         jvmTarget = '1.8'
     }
 
+//    signingConfigs {
+//        config {
+//            keyAlias 'key55'
+//            keyPassword '123456'
+//            storeFile new File(project.rootDir.absolutePath + "/keystore.jks")
+//            storePassword '123456'
+//        }
+//    }
+//
+//    buildTypes {
+//        release {
+//            debuggable false
+//            zipAlignEnabled true
+//            minifyEnabled false
+//            shrinkResources false
+//            signingConfig signingConfigs.config
+//            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+//            ndk {
+//                abiFilters 'armeabi', 'armeabi-v7a'
+//            }
+//        }
+//        debug {
+//            debuggable true
+//            zipAlignEnabled false
+//            minifyEnabled false
+//            shrinkResources false
+//            proguardFiles 'proguard-rules.pro'
+//            signingConfig signingConfigs.config
+//            ndk {
+//                abiFilters 'armeabi', 'armeabi-v7a'
+//            }
+//        }
+//        uat {
+//            debuggable true
+//            zipAlignEnabled true
+//            minifyEnabled false
+//            shrinkResources false
+//            signingConfig signingConfigs.config
+//            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+//            ndk {
+//                abiFilters 'armeabi', 'armeabi-v7a'
+//            }
+//
+//        }
+//    }
+
+    //apk  文件输出路径
+    android.applicationVariants.all { variant ->
+        variant.outputs.all { flavor ->
+            outputFileName = "frout_" +
+                    variant.versionName + "_" +
+                    "${getTime()}" + "_" +
+                    flavor.name + ".apk"
+        }
+    }
+
     kotlin {
         sourceSets.debug {
             kotlin.srcDirs += "build/generated/ksp/debug/kotlin"
@@ -70,10 +126,20 @@ android {
             kotlin.srcDirs += "build/generated/ksp/release/kotlin"
         }
     }
+
+//    repositories {
+//        flatDir {
+//            dirs 'libs', '../base_lib/libs'
+//        }
+//    }
 }
 
 configurations.all {
 //        resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+
+//    def isRelease = project.gradle.startParameter.taskNames.any {
+//        it.toLowerCase().contains('release')
+//    }
 }
 
 dependencies {

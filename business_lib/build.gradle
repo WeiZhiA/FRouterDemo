@@ -1,3 +1,15 @@
+//apply from: '../module.build.gradle'
+//
+//android {
+//    //统一资源前缀，规范资源引用
+//    resourcePrefix "funds_"
+//}
+//dependencies {
+//    implementation fileTree(include: ['*.jar'], dir: 'libs')
+//    api project(':zz-common')
+//}
+
+
 plugins {
     id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
